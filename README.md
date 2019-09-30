@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/magg/parking.svg?branch=master)](https://travis-ci.org/magg/parking)
+[![codecov](https://codecov.io/gh/magg/parking/branch/master/graph/badge.svg)](https://codecov.io/gh/magg/parking)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d0bf4e468254fa52df0e/maintainability)](https://codeclimate.com/github/magg/parking/maintainability)
+
 
 parking is Java library for a Toll Parking system
 
