@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.github.magg.parking"},{"l":"com.github.magg.parking.config"},{"l":"com.github.magg.parking.domain"},{"l":"com.github.magg.parking.domain.allocation"},{"l":"com.github.magg.parking.domain.pricing"},{"l":"com.github.magg.parking.domain.vehicles"},{"l":"com.github.magg.parking.exception"}]

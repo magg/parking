@@ -1,0 +1,7 @@
+com.github.magg.parking
+com.github.magg.parking.config
+com.github.magg.parking.domain
+com.github.magg.parking.domain.allocation
+com.github.magg.parking.domain.pricing
+com.github.magg.parking.domain.vehicles
+com.github.magg.parking.exception
