@@ -1,20 +1,27 @@
 language: java
-sudo: false # faster builds
+sudo: false
 jdk:
-  - oraclejdk11
-
+- oraclejdk11
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+before_install:
+- chmod -R ug+x .travis
+- ".travis/install.sh"
+before_script:
+- sed -i 's/ossrhUsername=/ossrhUsername='$OSSRH_USERNAME'/g' gradle.properties
+- sed -i 's/ossrhPassword=/ossrhPassword='$OSSRH_PASSWORD'/g' gradle.properties
 script:
-  - ./gradlew check
-  - ./gradlew jacocoTestCoverageVerification # break the build if verification failed
-
+- "./gradlew check"
+- "./gradlew jacocoTestReport"
 after_success:
-  - bash <(curl -s https://codecov.io/bash) # push jacoco results to codecov.io
+- bash <(curl -s https://codecov.io/bash)
+- test $TRAVIS_PULL_REQUEST == "false" && ./gradlew uploadArchives
+env:
+  global:
+  - GPG_KEY_LOCATION=".travis/secring.gpg"
+  - ENCRYPTED_GPG_KEY_LOCATION=".travis/secring.gpg.enc"

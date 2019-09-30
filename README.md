@@ -1,11 +1,18 @@
 
 parking is Java library for a Toll Parking system
 
-to compile 
-
-`gradle build`
 
 ## Usage
+
+### Installing from source
+
+To compile, please clone the project and use gradle
+
+```
+git clone https://github.com/magg/parking.git
+cd parking
+gradle build
+```
 
 ### Create a new Toll Parking
 
@@ -44,7 +51,7 @@ PricingPolicyData is used internally to calculate pricing according to pricing p
                 .build();
     
     PricingPolicyData pricingPolicyData = PricingPolicyData
-                  .builder()
+                  .bilder()
                   .hourPrice(new BigDecimal(37))
                   .build();
               
@@ -58,3 +65,33 @@ PricingPolicyData is used internally to calculate pricing according to pricing p
   Electric20KW teslaModelY = new Electric20KW();
   Car nissanVersa = new Car();
 ```
+
+
+
+
+### Basic usage
+
+```
+ ParkingConfiguration parkingConfiguration= ParkingConfiguration
+                .builder()
+                .parkingSlots(ParkingSlotType.POWER_SUPPLY_OF_50KW, 2)
+                .policyType(PolicyType.HOUR_SPENT_FIXED_AMOUNT)
+                .allocationType(ParkingSlotAllocationType.RANDOM)
+                .build();
+
+        PricingPolicyData pricingPolicyData = PricingPolicyData
+                .builder()
+                .hourPrice(new BigDecimal(37))
+                .fixedPrice(new BigDecimal(20))
+                .build();
+
+        TollParking parkingLot = new TollParking(parkingConfiguration, pricingPolicyData);
+
+        Electric50KW teslaModelX = new Electric50KW();
+        parkingLot.vehicleEnters(teslaModelX);
+
+        ParkingTicket ticket = parkingLot.vehicleLeaves(teslaModelX);
+
+
+        assertEquals(new BigDecimal(57), ticket.getTotalAmount());`
+  ```
