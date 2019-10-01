@@ -4,6 +4,7 @@ import com.github.magg.parking.domain.ParkingSlot;
 import com.github.magg.parking.domain.ParkingSlotType;
 import com.github.magg.parking.domain.vehicles.Vehicle;
 import com.github.magg.parking.exception.ParkingException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 import static com.github.magg.parking.exception.ParkingException.PARKING_SLOTS_INVALID;
 
+@Slf4j
 public class RandomParkingSlotAllocation implements ParkingSlotAllocation {
 
     @Override
@@ -28,6 +30,10 @@ public class RandomParkingSlotAllocation implements ParkingSlotAllocation {
                 freeList.add(i);
             }
         }
+
+        if (freeList.size() == 1) return freeList.get(0);
+
+        if (freeList.size() == 0) return -1;
 
         int rand = getRandomNumberInRange(0, freeList.size() -1);
         return freeList.get(rand);
@@ -45,6 +51,12 @@ public class RandomParkingSlotAllocation implements ParkingSlotAllocation {
                 occupiedList.add(i);
             }
         }
+
+        log.info("random occupied sized {}", occupiedList.size());
+
+        if (occupiedList.size() == 1) return occupiedList.get(0);
+
+        if (occupiedList.size() == 0) return -1;
 
         int rand = getRandomNumberInRange(0, occupiedList.size() -1);
         return occupiedList.get(rand);

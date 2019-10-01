@@ -20,6 +20,7 @@ import java.util.Set;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
@@ -96,6 +97,25 @@ public class RandomParkingSlotAllocationTests {
         assertEquals(-1, slotIndex);
 
     }
+
+    @Test
+    public void emptytest(){
+
+        ParkingSlotAllocation random =  ParkingAllocationFactory.createParkingAllocation(ParkingSlotAllocationType.RANDOM);
+        List<ParkingSlot> parkingSlots = new ArrayList<>();
+        int slotIndex =  random.getNextAvailableSlot(parkingSlots);
+
+        assertEquals(-1, slotIndex);
+
+    }
+
+    @Test
+    public void testMakeAvailable(){
+        ParkingSlotAllocation random =  ParkingAllocationFactory.createParkingAllocation(ParkingSlotAllocationType.RANDOM);
+        int slotIndex = random.makeSlotAvailable(queue);
+        assertFalse(queue.get(slotIndex).isFree());
+    }
+
 
 
 

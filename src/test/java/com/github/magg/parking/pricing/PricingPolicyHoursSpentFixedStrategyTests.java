@@ -16,9 +16,12 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @PrepareForTest({ PricingPolicyCalculationStrategy.class, PricingPolicyHoursSpentFixedStrategy.class, PricingPolicyHoursSpentStrategy.class})
@@ -96,6 +99,54 @@ public class PricingPolicyHoursSpentFixedStrategyTests {
         System.out.println(result.getTotalAmount().toString());
 
         assertEquals(new BigDecimal(57), result.getTotalAmount());
+
+    }
+
+
+    @Test
+    public void calculateHoursLess(){
+        PricingPolicyCalculationStrategy pricingPolicy = PricingPolicyStrategyFactory.createPolicyStrategy(PolicyType.HOUR_SPENT_FIXED_AMOUNT);
+
+
+        Electric50KW teslaModelX = new Electric50KW();
+
+        ParkingTicket ticket = new ParkingTicket();
+        teslaModelX.setTicket(ticket);
+
+        Duration calculateTime = pricingPolicy.calculateTime(teslaModelX);
+
+        assertNotNull(calculateTime);
+        long time = calculateTime.toHours();
+
+        assertEquals(0, time);
+
+
+    }
+
+    @Test
+    public void calculateHoursMore(){
+        PricingPolicyCalculationStrategy pricingPolicy = PricingPolicyStrategyFactory.createPolicyStrategy(PolicyType.HOUR_SPENT_FIXED_AMOUNT);
+
+
+        Electric50KW teslaModelX = new Electric50KW();
+
+        ParkingTicket ticket = new ParkingTicket();
+        teslaModelX.setTicket(ticket);
+
+        String now = LocalDateTime.now().plusHours(3).toString();
+
+        LocalDateTime expected = LocalDateTime.parse(now);
+
+        PowerMockito.spy(LocalDateTime.class);
+        when(LocalDateTime.now()).thenReturn(expected);
+
+        Duration calculateTime = pricingPolicy.calculateTime(teslaModelX);
+
+        assertNotNull(calculateTime);
+        long time = calculateTime.toHours();
+
+        assertTrue(time > 1);
+
 
     }
 }

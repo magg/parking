@@ -2,11 +2,13 @@ package com.github.magg.parking.domain.vehicles;
 
 import com.github.magg.parking.domain.pricing.PricingPolicyHoursSpentFixedStrategy;
 import com.github.magg.parking.domain.pricing.PricingPolicyHoursSpentStrategy;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 public class RandomVehicleBuilder {
 
     public RandomVehicleBuilder() {
@@ -44,10 +46,11 @@ public class RandomVehicleBuilder {
     public RandomVehicleBuilder addVehicles(VehicleType type, int count){
 
 
-        for (int i = 1 ; i <= vehicles.size(); i++){
+        for (int i = 1 ; i <= count; i++){
+            log.info("lol car is being built "+i);
             Vehicle vehicle = createVehicle(type);
             vehicle.setLicensePlates("EU-FR-"+ i);
-            vehicles.add(vehicle);
+            this.vehicles.add(vehicle);
         }
 
         return this;

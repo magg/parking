@@ -29,4 +29,10 @@ public class PricingPolicyStrategyFactoryTests {
         assertNotNull(pricingPolicy);
         assertEquals(PricingPolicyHoursSpentFixedStrategy.class, pricingPolicy.getClass());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidPricing(){
+        PricingPolicyCalculationStrategy pricingPolicy = PricingPolicyStrategyFactory.createPolicyStrategy(PolicyType.FIRST_FIFTEEN_MINUTES_FREE_HOUR_SPENT);
+
+    }
 }

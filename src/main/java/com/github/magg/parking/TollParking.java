@@ -214,14 +214,25 @@ public class TollParking {
 
     public synchronized ParkingTicket vehicleLeaves(){
 
-        ParkingSlotType parkingSlotType = parkingSlotAllocation.getRandomPolicy();
+        ParkingSlotType parkingSlotType;
+        List <ParkingSlot> slots;
+        int index;
+        do {
+            parkingSlotType = parkingSlotAllocation.getRandomPolicy();
 
-        List <ParkingSlot> slots =parkingSlots.get(parkingSlotType);
-        int index = parkingSlotAllocation.makeSlotAvailable(slots);
+            slots = parkingSlots.get(parkingSlotType);
+            index = parkingSlotAllocation.makeSlotAvailable(slots);
+
+        } while (index == -1);
+
+        log.info("Parking slot random index {}", index);
+
 
         ParkingSlot slot = slots.get(index);
 
         Vehicle vehicle = slot.getVehicle();
+
+        log.info("Vehicle {}", vehicle.toString());
 
         ParkingTicket ticket = pricingPolicy.calculateParkingPrice(pricingPolicyData, vehicle);
 
